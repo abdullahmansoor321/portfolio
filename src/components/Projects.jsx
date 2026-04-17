@@ -74,23 +74,6 @@ function ProjectCanvas({ type, color = "#00f5d4" }) {
 
 const PROJECTS = [
   {
-    id: "actordb",
-    name: "ActorDB",
-    category: "AI / ML",
-    color: "#EE4C2C",
-    subtitle: "AI Video Semantic Search Engine",
-    desc: "Multi-modal AI tool for semantic video indexing and intelligent content retrieval.",
-    longDesc: "ActorDB indexes large-scale video archives for semantic and visual search. It bridges the gap between raw video data and intelligent querying using deep learning benchmarks.",
-    highlights: [
-      "Integrated WhisperX for diarized audio transcription and NLP dialogue search.",
-      "Used CLIP and face recognition for visual scene and actor-based indexing.",
-      "Deployed as a Dockerized container with both CLI and React-based GUI interfaces."
-    ],
-    stack: ["WhisperX", "CLIP", "Python", "ChromaDB", "Docker"],
-    canvasType: "neural",
-    github: "https://github.com/abdullahmansoor321"
-  },
-  {
     id: "hrms",
     name: "Enterprise HRMS",
     category: "Full Stack",
@@ -105,6 +88,23 @@ const PROJECTS = [
     ],
     stack: ["Next.js", "Supabase", "PostgreSQL", "TypeScript"],
     canvasType: "bars",
+    github: "https://github.com/abdullahmansoor321"
+  },
+  {
+    id: "actordb",
+    name: "ActorDB",
+    category: "AI / ML",
+    color: "#EE4C2C",
+    subtitle: "AI Video Semantic Search Engine",
+    desc: "Multi-modal AI tool for semantic video indexing and intelligent content retrieval.",
+    longDesc: "ActorDB indexes large-scale video archives for semantic and visual search. It bridges the gap between raw video data and intelligent querying using deep learning benchmarks.",
+    highlights: [
+      "Integrated WhisperX for diarized audio transcription and NLP dialogue search.",
+      "Used CLIP and face recognition for visual scene and actor-based indexing.",
+      "Deployed as a Dockerized container with both CLI and React-based GUI interfaces."
+    ],
+    stack: ["WhisperX", "CLIP", "Python", "ChromaDB", "Docker"],
+    canvasType: "neural",
     github: "https://github.com/abdullahmansoor321"
   },
   {
@@ -358,22 +358,6 @@ export default function Projects() {
     }
   }, [isMobile, filter]);
 
-  // Auto-scroll loop for mobile
-  useEffect(() => {
-    if (!isMobile || !wrapperRef.current) return;
-    const interval = setInterval(() => {
-      const container = wrapperRef.current;
-      if (!container) return;
-      const cardWidth = container.offsetWidth * 0.85; // rough estimate
-      if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
-        container.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        container.scrollBy({ left: cardWidth, behavior: "smooth" });
-      }
-    }, 4500);
-    return () => clearInterval(interval);
-  }, [isMobile, filter, query, sortMode]);
-
   const normalizedQuery = query.trim().toLowerCase();
   const filtered = PROJECTS.filter((p) => {
     const categoryOk = filter === "All" || p.category === filter;
@@ -388,6 +372,7 @@ export default function Projects() {
     const scoreB = b.highlights.length * 2 + b.stack.length;
     return scoreB - scoreA;
   });
+  const scoredIdsKey = scored.map((p) => p.id).join("|");
 
   useEffect(() => {
     if (!scored.length) {
@@ -397,7 +382,50 @@ export default function Projects() {
     if (!scored.some((p) => p.id === activeId)) {
       setActiveId(scored[0].id);
     }
-  }, [activeId, scored]);
+  }, [activeId, scoredIdsKey]);
+
+  useEffect(() => {
+    if (!isMobile || !wrapperRef.current || !scored.length) return;
+    const container = wrapperRef.current;
+
+    const syncActive = () => {
+      const cards = container.querySelectorAll(".project-card-outer");
+      let current = 0;
+      let minDiff = Infinity;
+      const containerCenter = container.scrollLeft + container.offsetWidth / 2;
+
+      cards.forEach((card, i) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const diff = Math.abs(containerCenter - cardCenter);
+        if (diff < minDiff) {
+          minDiff = diff;
+          current = i;
+        }
+      });
+
+      const target = scored[current];
+      if (target) {
+        setActiveId((prev) => (prev === target.id ? prev : target.id));
+      }
+    };
+
+    const firstCard = container.querySelector(".project-card-outer");
+    setActiveId(scored[0].id);
+    const rafId = requestAnimationFrame(() => {
+      if (!firstCard) return;
+      container.scrollTo({
+        left: firstCard.offsetLeft - (container.offsetWidth - firstCard.offsetWidth) / 2,
+        behavior: "auto",
+      });
+      syncActive();
+    });
+
+    container.addEventListener("scroll", syncActive, { passive: true });
+    return () => {
+      cancelAnimationFrame(rafId);
+      container.removeEventListener("scroll", syncActive);
+    };
+  }, [isMobile, scoredIdsKey]);
 
   const activeProject = scored.find((p) => p.id === activeId) || scored[0] || null;
   const categoryCounts = CATEGORIES.reduce((acc, val) => {
@@ -415,8 +443,22 @@ export default function Projects() {
   return (
     <section id="projects" style={{ padding: isMobile ? "2.5rem 0" : "7rem 0", background: "var(--void)", overflow: "hidden" }}>
       <div className="container" style={{ position: "relative", zIndex: 10 }}>
-        <p className="section-eyebrow">05 — Projects</p>
+        <p className="section-eyebrow">04 — Projects</p>
         <h2 className="section-title">Decoded <em>Operations</em></h2>
+
+        {isMobile && (
+          <div style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.58rem",
+            letterSpacing: "0.14em",
+            color: "var(--cyan)",
+            opacity: 0.82,
+            marginTop: "-0.7rem",
+            marginBottom: "1rem",
+          }}>
+            SWIPE_TO_SWAP ⟷
+          </div>
+        )}
 
         {/* Control Deck */}
         {!isMobile && (
@@ -515,7 +557,10 @@ export default function Projects() {
         )}
 
         {/* Dynamic Project Layout */}
-        <div className="projects-wrapper" ref={wrapperRef}>
+        <div 
+          className="projects-wrapper" 
+          ref={wrapperRef}
+        >
           {scored.map((p) => {
             const isActive = p.id === activeId;
             return (
@@ -549,6 +594,8 @@ export default function Projects() {
                   height: "100%",
                   transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
                   boxShadow: isActive ? `0 18px 40px rgba(0,0,0,0.38), 0 0 14px ${p.color}25` : "none",
+                  transform: isMobile ? (isActive ? "translateY(-8px) scale(1.02)" : "translateY(6px) scale(0.96)") : "none",
+                  opacity: isMobile ? (isActive ? 1 : 0.8) : 1,
                 }}
               >
                 <div style={{ height: 160, background: "#050810", position: "relative", overflow: "hidden" }}>
@@ -671,7 +718,7 @@ export default function Projects() {
           }
           .projects-wrapper::-webkit-scrollbar { display: none; }
           .project-card-outer {
-            flex: 0 0 calc(100% - 1.5rem);
+            flex: 0 0 calc(86vw - 3rem);
             scroll-snap-align: center;
           }
         }

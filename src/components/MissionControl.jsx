@@ -6,6 +6,7 @@ export default function MissionControl() {
   const [scroll, setScroll] = useState(0);
   const [visible, setVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
 
   useEffect(() => {
     const updateClock = () => {
@@ -36,7 +37,22 @@ export default function MissionControl() {
     return () => window.removeEventListener("resize", sync);
   }, []);
 
+  useEffect(() => {
+    const syncModalState = () => {
+      setIsProjectModalOpen(document.body.classList.contains("project-modal-open"));
+    };
+
+    syncModalState();
+    const observer = new MutationObserver(syncModalState);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
   const [isExpanded, setIsExpanded] = useState(false);
+
+  if (isProjectModalOpen) {
+    return null;
+  }
 
   if (!isMobile) {
     return (

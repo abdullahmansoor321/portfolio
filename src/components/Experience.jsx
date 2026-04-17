@@ -62,6 +62,7 @@ const EXPERIENCES = [
 
 function ExpCard({ exp, isActive, isCompact }) {
   const cardRef = useRef(null);
+  const compactTransform = isActive ? "translateY(-8px) scale(1.02)" : "translateY(6px) scale(0.96)";
 
   return (
     <div
@@ -75,8 +76,8 @@ function ExpCard({ exp, isActive, isCompact }) {
         borderRadius: "20px",
         backdropFilter: "blur(16px)",
         transition: "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)",
-        transform: isCompact ? "none" : (isActive ? "scale(1.02) translateX(10px)" : "scale(0.98) translateX(0)"),
-        opacity: isActive ? 1 : 0.6,
+        transform: isCompact ? compactTransform : (isActive ? "scale(1.02) translateX(10px)" : "scale(0.98) translateX(0)"),
+        opacity: isCompact ? (isActive ? 1 : 0.78) : (isActive ? 1 : 0.6),
         position: "relative",
         boxShadow: isActive ? `0 20px 60px rgba(0,0,0,0.5), 0 0 30px ${exp.color}15` : "none",
       }}
@@ -161,6 +162,33 @@ export default function Experience() {
   const expContainerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
+  const [isInteracting, setIsInteracting] = useState(false);
+  const interactionTimer = useRef(null);
+
+  const handleInteraction = () => {
+    setIsInteracting(true);
+    if (interactionTimer.current) clearTimeout(interactionTimer.current);
+    interactionTimer.current = setTimeout(() => setIsInteracting(false), 8000);
+  };
+
+  useEffect(() => {
+    if (!isMobile || !expContainerRef.current || isInteracting) return;
+    const interval = setInterval(() => {
+      const container = expContainerRef.current;
+      if (!container) return;
+      const cards = container.querySelectorAll(".exp-card");
+      const nextIdx = (activeIndex + 1) % cards.length;
+      const nextCard = cards[nextIdx];
+      if (nextCard) {
+        container.scrollTo({
+          left: nextCard.offsetLeft - (container.offsetWidth - nextCard.offsetWidth) / 2,
+          behavior: "smooth"
+        });
+      }
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [isMobile, activeIndex, isInteracting]);
+
   useEffect(() => {
     const syncMobile = () => setIsMobile(window.innerWidth <= 992);
     syncMobile();
@@ -194,6 +222,24 @@ export default function Experience() {
     return () => container.removeEventListener("scroll", handleScroll);
   }, [isMobile]);
 
+  useEffect(() => {
+    if (!isMobile || !expContainerRef.current) return;
+    const container = expContainerRef.current;
+    const cards = container.querySelectorAll(".exp-card");
+    const firstCard = cards[0];
+    setActiveIndex(0);
+
+    const rafId = requestAnimationFrame(() => {
+      if (!firstCard) return;
+      container.scrollTo({
+        left: firstCard.offsetLeft - (container.offsetWidth - firstCard.offsetWidth) / 2,
+        behavior: "auto",
+      });
+    });
+
+    return () => cancelAnimationFrame(rafId);
+  }, [isMobile]);
+
   // Desktop Scroll Observer
   useEffect(() => {
     if (isMobile) return;
@@ -210,59 +256,62 @@ export default function Experience() {
     return () => window.removeEventListener("scroll", s);
   }, [isMobile]);
 
-  // Auto-swap loop for mobile
-  useEffect(() => {
-    if (!isMobile || !expContainerRef.current) return;
-    const interval = setInterval(() => {
-      const container = expContainerRef.current;
-      if (!container) return;
-
-      const cards = container.querySelectorAll(".exp-card");
-      const nextIndex = (activeIndex + 1) % cards.length;
-      const nextCard = cards[nextIndex];
-
-      if (nextCard) {
-        container.scrollTo({
-          left: nextCard.offsetLeft - (container.offsetWidth - nextCard.offsetWidth) / 2,
-          behavior: "smooth"
-        });
-      }
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isMobile, activeIndex]);
-
   return (
     <section id="experience" ref={sectionRef} style={{ background: "var(--void)", padding: isMobile ? "2.5rem 0" : "6rem 0", position: "relative" }}>
-      <div className="container experience-layout" style={{ display: "flex", gap: "4rem" }}>
+      <div className="container">
+        {/* Unified Header */}
+        <p className="section-eyebrow">05 — Experience</p>
+        <h2 className="section-title" style={{ marginBottom: isMobile ? "2rem" : "4rem", fontSize: isMobile ? "2.2rem" : "3.5rem" }}>Career <em>Logbook</em></h2>
 
-        {/* Left - Sticky Title Area */}
-        <div className="experience-side" style={{ flex: "0 0 280px", position: "sticky", top: "10rem", height: "fit-content" }}>
-          <p className="section-eyebrow">04 — Experience</p>
-          <h2 className="section-title experience-title" style={{ fontSize: "3rem" }}>Career <em>Logbook</em></h2>
-          <div className="experience-nav" style={{ marginTop: "2rem", paddingLeft: "1.5rem", borderLeft: "1px solid var(--border)", position: "relative" }}>
+        <div className="experience-layout" style={{ display: "flex", gap: "4rem", flexDirection: isMobile ? "column" : "row" }}>
+          
+          {isMobile && (
             <div style={{
-              position: "absolute", left: -1, top: `${activeIndex * 25}%`, height: "25%", width: 2, background: EXPERIENCES[activeIndex].color,
-              boxShadow: `0 0 10px ${EXPERIENCES[activeIndex].color}`, transition: "all 0.5s"
-            }} />
-            {EXPERIENCES.map((e, i) => (
-              <div key={i} style={{
-                height: "60px", display: "flex", alignItems: "center", fontSize: "0.72rem", fontFamily: "var(--font-mono)",
-                color: activeIndex === i ? e.color : "var(--text-muted)", transition: "color 0.4s", cursor: "pointer",
-                fontWeight: activeIndex === i ? 700 : 400
-              }}>
-                {e.chapter}::{e.company.toUpperCase()}
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.58rem",
+              letterSpacing: "0.14em",
+              color: "var(--cyan)",
+              opacity: 0.8,
+              marginTop: "-1rem",
+              marginBottom: "1.5rem"
+            }}>
+              SWIPE_TO_SWAP ⟹
+            </div>
+          )}
+
+          {/* Left - Sticky Navigation (Desktop Only) */}
+          {!isMobile && (
+            <div className="experience-side" style={{ flex: "0 0 280px", position: "sticky", top: "10rem", height: "fit-content" }}>
+              <div className="experience-nav" style={{ paddingLeft: "1.5rem", borderLeft: "1px solid var(--border)", position: "relative" }}>
+                <div style={{
+                  position: "absolute", left: -1, top: `${activeIndex * 25}%`, height: "25%", width: 2, background: EXPERIENCES[activeIndex].color,
+                  boxShadow: `0 0 10px ${EXPERIENCES[activeIndex].color}`, transition: "all 0.5s"
+                }} />
+                {EXPERIENCES.map((e, i) => (
+                  <div key={i} style={{ 
+                    height: "60px", display: "flex", alignItems: "center", fontSize: "0.72rem", fontFamily: "var(--font-mono)",
+                    color: activeIndex === i ? e.color : "var(--text-muted)", transition: "color 0.4s", cursor: "pointer",
+                    fontWeight: activeIndex === i ? 700 : 400
+                  }}>
+                    {e.chapter}::{e.company.toUpperCase()}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          )}
 
         {/* Right - Scrolling Cards */}
-        <div className="exp-container" ref={expContainerRef} style={{ flex: 1, minWidth: 0 }}>
+        <div 
+          className="exp-container" 
+          ref={expContainerRef} 
+          style={{ flex: 1, minWidth: 0 }}
+        >
           {EXPERIENCES.map((exp, i) => (
             <ExpCard key={i} exp={exp} isActive={activeIndex === i} isCompact={isMobile} />
           ))}
         </div>
       </div>
+    </div>
 
       {/* Background Animated Path */}
       <svg style={{ position: "absolute", right: "5%", top: 0, height: "100%", width: 200, zIndex: 0, pointerEvents: "none", opacity: 0.1 }}>
@@ -288,11 +337,9 @@ export default function Experience() {
           }
           .exp-container::-webkit-scrollbar { display: none; }
           .exp-container .exp-card { 
-            flex: 0 0 calc(90vw - 3rem) !important; 
+            flex: 0 0 calc(86vw - 3rem) !important; 
             scroll-snap-align: center !important; 
             margin-bottom: 0 !important; 
-            transform: none !important; 
-            opacity: 1 !important; 
             min-height: 320px !important; 
           }
           .experience-nav { display: none !important; }

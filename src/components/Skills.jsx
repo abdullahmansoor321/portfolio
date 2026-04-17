@@ -188,34 +188,63 @@ export default function Skills() {
 
       <div className="container" style={{ position: "relative", zIndex: 10 }}>
         {isMobile ? (
-          /* Mobile: Two-row infinite marquee constrained to container */
-          <div style={{ overflow: "hidden", marginTop: "1.5rem", borderRadius: "12px", background: "rgba(255,255,255,0.02)", padding: "1.25rem 0", border: "1px solid rgba(255,255,255,0.05)" }}>
-            {[row1, row2].map((row, rowIdx) => (
-              <div key={rowIdx} style={{ marginBottom: rowIdx === 0 ? "1rem" : 0 }}>
-                <div style={{
-                  display: "flex",
-                  gap: "0.75rem",
-                  animation: `skillsTicker${rowIdx === 0 ? "Fwd" : "Rev"} 32s linear infinite`,
-                  width: "max-content",
-                }}>
-                  {[...row, ...row, ...row].map((s, i) => (
-                    <div key={i} style={{
-                      display: "flex", alignItems: "center", gap: "0.5rem",
-                      background: "rgba(255,255,255,0.04)",
-                      border: `1px solid ${s.color}22`,
-                      padding: "0.6rem 1.2rem", borderRadius: "999px",
-                      whiteSpace: "nowrap", flexShrink: 0,
-                    }}>
-                      <img src={s.icon} width={18} height={18} alt=""
-                        style={{ objectFit: "contain" }}
-                        onError={(e) => { e.currentTarget.style.display = "none"; }} />
-                      <span style={{ fontSize: "0.85rem", color: "var(--text-sub)", fontFamily: "var(--font-mono)" }}>{s.name}</span>
-                    </div>
-                  ))}
+          /* Mobile: Nonstop rotating two-row ticker */
+          <>
+            <div style={{
+              overflow: "hidden",
+              marginTop: "0.25rem",
+              borderRadius: "12px",
+              background: "rgba(255,255,255,0.02)",
+              padding: "1rem 0",
+              border: "1px solid rgba(255,255,255,0.06)",
+            }}>
+              {[row1, row2].map((row, rowIdx) => (
+                <div
+                  key={rowIdx}
+                  className="skills-ticker-row"
+                  style={{
+                    marginBottom: rowIdx === 0 ? "0.8rem" : 0,
+                    padding: "0 0.9rem",
+                  }}
+                >
+                  <div className={`skills-ticker-track ${rowIdx === 0 ? "ticker-forward" : "ticker-reverse"}`}>
+                    {[...row, ...row, ...row].map((s, i) => (
+                      <div
+                        key={`${s.name}-${rowIdx}-${i}`}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                          background: "rgba(255,255,255,0.04)",
+                          border: `1px solid ${s.color}2a`,
+                          padding: "0.58rem 1.05rem",
+                          borderRadius: "999px",
+                          whiteSpace: "nowrap",
+                          flexShrink: 0,
+                        }}
+                      >
+                        <img
+                          src={s.icon}
+                          width={18}
+                          height={18}
+                          alt={s.name}
+                          style={{ objectFit: "contain", filter: s.color === "#FFFFFF" ? "brightness(0.75)" : "none" }}
+                          onError={(e) => { e.currentTarget.style.display = "none"; }}
+                        />
+                        <span style={{
+                          fontSize: "0.82rem",
+                          color: "var(--text-sub)",
+                          fontFamily: "var(--font-mono)",
+                        }}>
+                          {s.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         ) : (
           /* Desktop: SkillCard grid */
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: "1.25rem", marginTop: "3rem" }}>
@@ -227,12 +256,34 @@ export default function Skills() {
       </div>
 
       <style jsx>{`
-        @keyframes skillsTickerFwd {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-33.33%); }
+        .skills-ticker-row {
+          overflow: hidden;
+          overflow-y: hidden;
+          pointer-events: none;
         }
-        @keyframes skillsTickerRev {
-          0%   { transform: translateX(-33.33%); }
+
+        .skills-ticker-track {
+          display: flex;
+          gap: 0.7rem;
+          width: max-content;
+          will-change: transform;
+        }
+
+        .ticker-forward {
+          animation: skillsTickerForward 20s linear infinite;
+        }
+
+        .ticker-reverse {
+          animation: skillsTickerReverse 20s linear infinite;
+        }
+
+        @keyframes skillsTickerForward {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-33.333%); }
+        }
+
+        @keyframes skillsTickerReverse {
+          0% { transform: translateX(-33.333%); }
           100% { transform: translateX(0); }
         }
       `}</style>

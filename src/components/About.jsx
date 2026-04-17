@@ -316,6 +316,9 @@ const TRAITS = [
 export default function About() {
   const sectionRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [activeTrait, setActiveTrait] = useState(0);
+  const traitsRef = useRef(null);
+  const scrollFrameRef = useRef(null);
 
   useEffect(() => {
     const sync = () => setIsMobile(window.innerWidth <= 768);
@@ -339,8 +342,53 @@ export default function About() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!isMobile || !traitsRef.current) return;
+    const container = traitsRef.current;
+
+    const syncActive = () => {
+      if (scrollFrameRef.current) cancelAnimationFrame(scrollFrameRef.current);
+      scrollFrameRef.current = requestAnimationFrame(() => {
+      const cards = container.querySelectorAll(".about-trait-card");
+      let current = 0;
+      let minDiff = Infinity;
+      const containerCenter = container.scrollLeft + container.offsetWidth / 2;
+
+      cards.forEach((card, i) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const diff = Math.abs(containerCenter - cardCenter);
+        if (diff < minDiff) {
+          minDiff = diff;
+          current = i;
+        }
+      });
+
+      setActiveTrait((prev) => (prev === current ? prev : current));
+      });
+    };
+
+    const cards = container.querySelectorAll(".about-trait-card");
+    const firstCard = cards[0];
+    setActiveTrait(0);
+    const rafId = requestAnimationFrame(() => {
+      if (!firstCard) return;
+      container.scrollTo({
+        left: firstCard.offsetLeft - (container.offsetWidth - firstCard.offsetWidth) / 2,
+        behavior: "auto",
+      });
+      syncActive();
+    });
+
+    container.addEventListener("scroll", syncActive, { passive: true });
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (scrollFrameRef.current) cancelAnimationFrame(scrollFrameRef.current);
+      container.removeEventListener("scroll", syncActive);
+    };
+  }, [isMobile]);
+
   return (
-    <section id="about" ref={sectionRef} style={{ background: "var(--deep)", padding: isMobile ? "2.5rem 0" : "6rem 0" }}>
+    <section id="about" ref={sectionRef} style={{ background: "var(--deep)", padding: isMobile ? "1.3rem 0 2.5rem" : "6rem 0" }}>
       <div className="container">
         <p className="section-eyebrow reveal">02 — About</p>
         <h2 className="section-title reveal">
@@ -420,49 +468,63 @@ export default function About() {
           </div>
         </div>
 
-        {/* Trait cards — horizontal scroll on mobile */}
-        <div style={{
-          display: "flex",
-          overflowX: "auto",
-          gap: "1rem",
-          paddingBottom: "0.5rem",
-          scrollSnapType: "x mandatory",
-          scrollbarWidth: "none",
-          marginLeft: "-1.25rem",
-          marginRight: "-1.25rem",
-          paddingLeft: "1.25rem",
-          paddingRight: "1.25rem",
-        }}>
-          {TRAITS.map((t, i) => (
-            <div
-              key={t.label}
-              className={`card reveal delay-${i + 1}`}
-              style={{
-                padding: "1.5rem",
-                flexShrink: 0,
-                width: "min(80vw, 280px)",
-                scrollSnapAlign: "start",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-8px)";
-                e.currentTarget.style.borderColor = "rgba(0,245,212,0.45)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "";
-                e.currentTarget.style.borderColor = "";
-              }}
-            >
-              <div style={{ fontSize: "1.75rem", marginBottom: "0.75rem" }}>{t.icon}</div>
-              <h4 style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "0.95rem",
-                fontWeight: 700,
-                marginBottom: "0.5rem",
-                color: "var(--text)",
-              }}>{t.label}</h4>
-              <p style={{ color: "var(--text-sub)", fontSize: "0.85rem", lineHeight: 1.7 }}>{t.desc}</p>
-            </div>
-          ))}
+
+        <div
+          ref={traitsRef}
+          style={{
+            display: isMobile ? "flex" : "grid",
+            gridTemplateColumns: isMobile ? "none" : "repeat(3, minmax(0, 1fr))",
+            overflowX: isMobile ? "auto" : "visible",
+            scrollSnapType: isMobile ? "x mandatory" : "none",
+            scrollbarWidth: isMobile ? "none" : "auto",
+            marginLeft: isMobile ? "-1.5rem" : 0,
+            marginRight: isMobile ? "-1.5rem" : 0,
+            paddingLeft: isMobile ? "2.5rem" : 0,
+            paddingRight: isMobile ? "2.5rem" : 0,
+            paddingBottom: isMobile ? "1.5rem" : 0,
+            paddingTop: isMobile ? "1.5rem" : 0,
+            gap: "1.25rem",
+            alignItems: "stretch",
+          }}
+        >
+          {TRAITS.map((t, i) => {
+            const isActive = isMobile ? (activeTrait === i) : true;
+            return (
+              <div
+                key={t.label}
+                className={`card reveal delay-${i + 1} about-trait-card`}
+                style={{
+                  padding: "1.5rem",
+                  width: isMobile ? "min(86vw, 320px)" : "100%",
+                  flexShrink: isMobile ? 0 : 1,
+                  scrollSnapAlign: isMobile ? "center" : "none",
+                  transform: isMobile ? (isActive ? "translateY(-8px) scale(1.02)" : "translateY(6px) scale(0.96)") : "none",
+                  opacity: isMobile ? (isActive ? 1 : 0.8) : 1,
+                  borderColor: isMobile && isActive ? "rgba(0,245,212,0.5)" : undefined,
+                  boxShadow: isMobile && isActive ? "0 18px 40px rgba(0,0,0,0.45), 0 0 20px rgba(0,245,212,0.2)" : undefined,
+                  transition: "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease, border-color 0.35s ease, box-shadow 0.35s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-8px)";
+                  e.currentTarget.style.borderColor = "rgba(0,245,212,0.45)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "";
+                  e.currentTarget.style.borderColor = "";
+                }}
+              >
+                <div style={{ fontSize: "1.75rem", marginBottom: "0.75rem" }}>{t.icon}</div>
+                <h4 style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "0.95rem",
+                  fontWeight: 700,
+                  marginBottom: "0.5rem",
+                  color: "var(--text)",
+                }}>{t.label}</h4>
+                <p style={{ color: "var(--text-sub)", fontSize: "0.85rem", lineHeight: 1.7 }}>{t.desc}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -488,6 +550,7 @@ export default function About() {
             padding: 1.05rem !important;
             min-height: 250px !important;
           }
+          .about-trait-card::-webkit-scrollbar { display: none; }
         }
       `}</style>
     </section>

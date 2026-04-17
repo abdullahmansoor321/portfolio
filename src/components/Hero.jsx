@@ -319,11 +319,11 @@ export default function Hero() {
 
   return (
     <section id="home" style={{ 
-      minHeight: "100svh", 
+      minHeight: isMobile ? "auto" : "100svh", 
       display: "flex", 
       alignItems: isMobile ? "flex-start" : "center", 
       paddingTop: isMobile ? (isSmall ? "calc(var(--nav-h) + 4.6rem)" : "calc(var(--nav-h) + 5.3rem)") : "calc(var(--nav-h) + 3rem)",
-      paddingBottom: isMobile ? (isSmall ? "3rem" : "4rem") : "6rem",
+      paddingBottom: isMobile ? (isSmall ? "1.35rem" : "1.9rem") : "6rem",
       paddingLeft: isMobile ? 0 : "2rem",
       paddingRight: isMobile ? 0 : "2rem",
       position: "relative",
@@ -358,7 +358,7 @@ export default function Hero() {
         )}
 
         {/* Text block */}
-        <div style={{ flex: "1 1 520px", zIndex: 5, minWidth: 0, width: "100%", textAlign: isMobile ? "center" : "left" }}>
+        <div style={{ flex: isMobile ? "0 1 auto" : "1 1 520px", zIndex: 5, minWidth: 0, width: "100%", textAlign: isMobile ? "center" : "left" }}>
           <div style={{ 
             fontFamily: "var(--font-mono)", 
             fontSize: isSmall ? "0.58rem" : "0.66rem", 
