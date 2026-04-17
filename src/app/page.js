@@ -18,6 +18,23 @@ import MissionControl from "@/components/MissionControl";
 export default function Home() {
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    if (loading) return;
+
+    const syncViewportState = () => {
+      window.dispatchEvent(new Event("resize"));
+      window.dispatchEvent(new Event("scroll"));
+    };
+
+    const rafId = requestAnimationFrame(syncViewportState);
+    const settleId = window.setTimeout(syncViewportState, 220);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(settleId);
+    };
+  }, [loading]);
+
   return (
     <>
       <Loader onFinished={() => setLoading(false)} />

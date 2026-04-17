@@ -19,6 +19,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     const ids = LINKS.map((l) => l.href.slice(1));
     const observer = new IntersectionObserver(

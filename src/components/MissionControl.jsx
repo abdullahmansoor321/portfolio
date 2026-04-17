@@ -8,8 +8,12 @@ export default function MissionControl() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const t = setInterval(() => {
+    const updateClock = () => {
       setTime(new Date().toLocaleTimeString("en-US", { hour12: false }));
+    };
+
+    const t = setInterval(() => {
+      updateClock();
     }, 1000);
 
     const s = () => {
@@ -17,6 +21,9 @@ export default function MissionControl() {
       setScroll(Math.floor(pct));
       setVisible(window.scrollY > 200);
     };
+
+    updateClock();
+    s();
 
     window.addEventListener("scroll", s);
     return () => { clearInterval(t); window.removeEventListener("scroll", s); };

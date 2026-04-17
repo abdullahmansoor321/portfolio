@@ -8,6 +8,7 @@ export default function ScrollProgress() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setPct(max > 0 ? (window.scrollY / max) * 100 : 0);
     };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
