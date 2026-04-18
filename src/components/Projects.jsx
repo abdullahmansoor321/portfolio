@@ -88,7 +88,7 @@ const PROJECTS = [
     ],
     stack: ["Next.js", "Supabase", "PostgreSQL", "TypeScript"],
     canvasType: "bars",
-    github: "https://github.com/abdullahmansoor321"
+    github: "https://github.com/abdullahmansoor321/HRMS"
   },
   {
     id: "actordb",
@@ -105,7 +105,7 @@ const PROJECTS = [
     ],
     stack: ["WhisperX", "CLIP", "Python", "ChromaDB", "Docker"],
     canvasType: "neural",
-    github: "https://github.com/abdullahmansoor321"
+    demoVideo: "/video.mp4"
   },
   {
     id: "cipherchat",
@@ -122,7 +122,7 @@ const PROJECTS = [
     ],
     stack: ["MERN", "Socket.io", "Arcjet", "JWT", "Cloudinary"],
     canvasType: "chat",
-    github: "https://github.com/abdullahmansoor321"
+    github: "https://github.com/abdullahmansoor321/Cipher-Chat"
   },
   {
     id: "contentflow",
@@ -139,7 +139,7 @@ const PROJECTS = [
     ],
     stack: ["Node.js", "Express", "Firebase Auth", "Swagger", "PostgreSQL"],
     canvasType: "wave",
-    github: "https://github.com/abdullahmansoor321"
+    github: "https://github.com/abdullahmansoor321/Content-Flow-CMS"
   },
   {
     id: "nestjs-bp",
@@ -173,7 +173,7 @@ const PROJECTS = [
     ],
     stack: ["Python", "Scikit-Learn", "Pandas", "Streamlit", "Matplotlib"],
     canvasType: "neural",
-    github: "https://github.com/abdullahmansoor321"
+    github: "https://github.com/abdullahmansoor321/Glassdoor-job-salary-predictor"
   },
   {
     id: "task-tracker",
@@ -190,7 +190,7 @@ const PROJECTS = [
     ],
     stack: ["MongoDB", "Express", "React", "Node.js", "Zustand"],
     canvasType: "bars",
-    github: "https://github.com/abdullahmansoor321"
+    github: "https://github.com/abdullahmansoor321/Task-Tracker-Lite"
   },
   {
     id: "react-job-board",
@@ -285,8 +285,19 @@ function ProjectModal({ project, onClose }) {
 
         <div style={{ display: "flex", flexWrap: "wrap", minHeight: isMobile ? 0 : 480 }}>
           {/* Left Panel - Visuals */}
-          <div style={{ flex: "1 1 360px", background: "#050812", position: "relative", minHeight: isMobile ? 190 : 280 }}>
-            <ProjectCanvas type={project.canvasType} color={project.color} />
+          <div style={{ flex: "1 1 360px", background: "#050812", position: "relative", minHeight: isMobile ? 190 : 280, overflow: "hidden" }}>
+            {project.demoVideo ? (
+              <video 
+                src={project.demoVideo} 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.8 }}
+              />
+            ) : (
+              <ProjectCanvas type={project.canvasType} color={project.color} />
+            )}
             <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, transparent, var(--surface) 95%)` }} />
             <div style={{ position: "absolute", bottom: isMobile ? "1rem" : "2rem", left: isMobile ? "1rem" : "2rem" }}>
               <span style={{ fontSize: "0.6rem", color: project.color, fontFamily: "var(--font-mono)", letterSpacing: "0.2em" }}>INTEL_CORE://{project.id.toUpperCase()}</span>
@@ -326,7 +337,11 @@ function ProjectModal({ project, onClose }) {
             </div>
 
             <div style={{ marginTop: "auto", display: "flex", gap: "1rem", flexDirection: isMobile ? "column" : "row" }}>
-              <a href={project.github} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ flex: 1, textAlign: "center", justifyContent: "center" }}>View Source</a>
+              {project.github ? (
+                <a href={project.github} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ flex: 1, textAlign: "center", justifyContent: "center" }}>View Source</a>
+              ) : project.demoVideo ? (
+                <a href={project.demoVideo} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ flex: 1, textAlign: "center", justifyContent: "center" }}>View Demo</a>
+              ) : null}
               <button className="btn btn-outline" style={{ flex: 1 }} onClick={onClose}>Eject</button>
             </div>
           </div>
@@ -666,7 +681,7 @@ export default function Projects() {
                     </button>
 
                     <a
-                      href={p.github}
+                      href={p.github || p.demoVideo}
                       target="_blank"
                       rel="noreferrer"
                       className="btn btn-outline"
@@ -679,7 +694,7 @@ export default function Projects() {
                       }}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      GIT
+                      {p.github ? "GIT" : "DEMO"}
                     </a>
                   </div>
                 </div>
