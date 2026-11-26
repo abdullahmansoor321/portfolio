@@ -3,10 +3,29 @@ import { useEffect, useRef, useState } from "react";
 
 const EXPERIENCES = [
   {
-    chapter: "01",
+    "chapter": "01",
+    "role": "Trainee Software Engineer",
+    "company": "ITS — Xolva Department",
+    "period": "May 2026 – Present",
+    "color": "#3b82f6",
+    "desc": "Hands-on software development across frontend and backend using modern web technologies.",
+    "details": [
+        "Worked with React.js, Next.js, PHP, and Laravel.",
+        "Applied software engineering principles to practical development tasks and technical assignments.",
+        "Developed familiarity with application architecture, component-based development, and full-stack workflows."
+    ],
+    "tech": [
+        "React",
+        "Next.js",
+        "PHP",
+        "Laravel"
+    ]
+},
+  {
+    chapter: "02",
     role: "Software Engineer — Intern",
     company: "ARYTECH",
-    period: "Sep 2024 – Present",
+    period: "Sep 2025 – Jan 2026",
     color: "#00f5d4",
     desc: "Spearheaded the design and solo development of an internal HRMS, managing the entire lifecycle from ERD architecture to cloud VM deployment.",
     details: [
@@ -17,10 +36,10 @@ const EXPERIENCES = [
     tech: ["MERN", "React", "Next.js", "NestJS", "PostgreSQL", "Prisma"]
   },
   {
-    chapter: "02",
+    chapter: "03",
     role: "Apprentice Software Engineer",
     company: "Grayhat Developers",
-    period: "Sep 2023 – May 2024",
+    period: "Sep 2024 – May 2025",
     color: "#8b5cf6",
     desc: "Core contributor to ActorDB — an AI-powered video indexing tool for semantic content retrieval.",
     details: [
@@ -31,7 +50,7 @@ const EXPERIENCES = [
     tech: ["Python", "WhisperX", "CLIP", "Docker", "PyTorch"]
   },
   {
-    chapter: "03",
+    chapter: "04",
     role: "Machine Learning Intern",
     company: "NCL",
     period: "Mar 2024 – Apr 2024",
@@ -45,10 +64,10 @@ const EXPERIENCES = [
     tech: ["YOLOv8", "OpenCV", "Scikit-Learn", "Matplotlib"]
   },
   {
-    chapter: "04",
+    chapter: "05",
     role: "IT Intern",
     company: "KDA",
-    period: "Aug 2023 – Sep 2023",
+    period: "Aug 2024 – Sep 2024",
     color: "#f43f5e",
     desc: "Systems analyst mapping departmental workflows for digital transformation.",
     details: [

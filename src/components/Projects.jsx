@@ -73,6 +73,59 @@ function ProjectCanvas({ type, color = "#00f5d4" }) {
 }
 
 const PROJECTS = [
+{
+    "id": "bindery",
+    "name": "Bindery",
+    "category": "Full Stack",
+    "color": "#00f5d4",
+    "subtitle": "AI-Powered Team Knowledge Base",
+    "desc": "Multi-tenant wiki with nested pages and source-grounded RAG answers.",
+    "longDesc": "A collaborative knowledge base with workspace roles, email invitations, a Tiptap editor, public page sharing, and an Ask the Wiki assistant grounded in workspace content.",
+    "highlights": [
+        "Built event-driven indexing with Inngest, MiniLM embeddings, and pgvector HNSW search.",
+        "Implemented workspace-scoped cosine retrieval with Gemini and Groq fallback, plus validated page citations.",
+        "Enforced server-side RBAC, cycle-safe page moves, and DOMPurify sanitization."
+    ],
+    "stack": [
+        "Next.js",
+        "TypeScript",
+        "Prisma",
+        "Supabase",
+        "pgvector",
+        "Inngest",
+        "MiniLM",
+        "Gemini",
+        "Groq"
+    ],
+    "canvasType": "neural",
+    "github": "https://github.com/abdullahmansoor321/Bindery"
+},
+{
+    "id": "cinebook",
+    "name": "CineBook",
+    "category": "Full Stack",
+    "color": "#f59e0b",
+    "subtitle": "Cinema Ticket Booking Platform",
+    "desc": "Cinema booking with timed seat holds, Stripe payments, and QR e-tickets.",
+    "longDesc": "A full-stack ticketing platform for browsing movies, selecting seats, and paying online, with role-based customer, staff, and admin workflows.",
+    "highlights": [
+        "Protected against double booking with database-level constraints and expiring seat holds.",
+        "Integrated Stripe checkout and webhooks, email confirmations, and QR-code tickets scanned at entry.",
+        "Implemented refunds, showtime cancellations, queued jobs, audit logging, and Pest tests."
+    ],
+    "stack": [
+        "Laravel",
+        "PHP",
+        "MySQL",
+        "Blade",
+        "Tailwind CSS",
+        "Alpine.js",
+        "Stripe",
+        "Pest"
+    ],
+    "canvasType": "bars",
+    "github": "https://github.com/abdullahmansoor321/Cinebook"
+},
   {
     id: "hrms",
     name: "Enterprise HRMS",
@@ -84,7 +137,7 @@ const PROJECTS = [
     highlights: [
       "Led end-to-end development: from ERD design to cloud VM deployment.",
       "Engineered geo-verified check-in/out attendance with administrative mapping.",
-      "Implemented comprehensive RBAC and automated payroll reporting systems."
+      "Implemented RBAC, reporting hierarchies, and employee/team-level attendance policies."
     ],
     stack: ["Next.js", "Supabase", "PostgreSQL", "TypeScript"],
     canvasType: "bars",
@@ -101,7 +154,7 @@ const PROJECTS = [
     highlights: [
       "Integrated WhisperX for diarized audio transcription and NLP dialogue search.",
       "Used CLIP and face recognition for visual scene and actor-based indexing.",
-      "Deployed as a Dockerized container with both CLI and React-based GUI interfaces."
+      "Deployed as a Dockerized container with both CLI and Streamlit GUI interfaces."
     ],
     stack: ["WhisperX", "CLIP", "Python", "ChromaDB", "Docker"],
     canvasType: "neural",

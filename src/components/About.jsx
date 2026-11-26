@@ -10,6 +10,7 @@ const TERMINAL_SCRIPT = [
       { text: '  "role": "System Architect & Full-Stack Builder",', color: "#50fa7b" },
       { text: '  "location": "Karachi, PK",', color: "#50fa7b" },
       { text: '  "education": "B.E. Computer Systems (NED) - 2025",', color: "#50fa7b" },
+      { text: '  "employment": "Trainee Software Engineer — ITS / Xolva",', color: "#50fa7b" },
       { text: '  "internships": ["ARY", "Grayhat", "NCL", "KDA"],', color: "#50fa7b" },
       { text: '  "open_to_work": true,', color: "#ff79c6" },
       { text: '  "specialty": "MERN & Applied AI Pipelines"', color: "#50fa7b" },
@@ -21,7 +22,7 @@ const TERMINAL_SCRIPT = [
     lines: [
       { text: "mongodb/  express/  react/  next.js/", color: "#50fa7b" },
       { text: "node.js/  javascript/  typescript/  python/", color: "#50fa7b" },
-      { text: "nestjs/  docker/  postgresql/", color: "#50fa7b" },
+      { text: "nestjs/  docker/  postgresql/  php/  laravel/", color: "#50fa7b" },
     ],
   },
   {
@@ -423,7 +424,7 @@ export default function About() {
               I am a <strong style={{color:"#fff"}}>Computer Systems Engineer</strong> from NED University (Batch &apos;25), focused on <strong style={{color:"var(--cyan)"}}>Autonomous System Design</strong> and high-performance, full-stack architectures.
             </p>
             <p style={{ color: "var(--text-sub)", lineHeight: 1.8, marginBottom: "1.5rem", fontSize: "0.92rem" }}>
-              I build for scale, design for autonomy, and engineer systems where <strong style={{color:"#fff"}}>Full-Stack Development</strong> and intelligent logic are the foundations.
+              I currently work as a Trainee Software Engineer at ITS (Xolva Department), using React, Next.js, PHP, and Laravel. I build systems where <strong style={{color:"#fff"}}>Full-Stack Development</strong> and intelligent logic are the foundations.
             </p>
 
             {/* Stats grid */}
@@ -433,7 +434,7 @@ export default function About() {
               gap: "1rem",
             }}>
               {[
-                { num: "04",   label: "Industry Roles" },
+                { num: "05",   label: "Industry Roles" },
                 { num: "10+",  label: "Projects Shipped" },
                 { num: "MERN", label: "Core Expertise" },
                 { num: "AI",   label: "Applied Research" },
