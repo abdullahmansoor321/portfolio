@@ -27,36 +27,6 @@ const SKILLS = [
   { name: "Vite",        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg",                       color: "#646CFF", level: 85 },
   { name: "Zustand",     icon: "https://user-images.githubusercontent.com/958486/218346783-72be5ae3-b953-4dd7-b239-788a882fdad6.svg", color: "#FF9B33", level: 80 },
   { name: "Swagger",     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swagger/swagger-original.svg",                  color: "#85EA2D", level: 78 },
-  {"name": "JavaScript", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", "color": "#F7DF1E"},
-  {"name": "PHP", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg", "color": "#777BB4"},
-  {"name": "Laravel", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg", "color": "#FF2D20"},
-  {"name": "MySQL", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", "color": "#4479A1"},
-  {"name": "React Router", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/reactrouter/reactrouter-original.svg", "color": "#CA4245"},
-  {"name": "Bootstrap", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg", "color": "#7952B3"},
-  {"name": "DaisyUI", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%235A0EF8%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EDA%3C/text%3E%3C/svg%3E", "color": "#5A0EF8"},
-  {"name": "Streamlit", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/streamlit/streamlit-original.svg", "color": "#FF4B4B"},
-  {"name": "Mongoose", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongoose/mongoose-original.svg", "color": "#880000"},
-  {"name": "ChromaDB", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FF6F00%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3ECH%3C/text%3E%3C/svg%3E", "color": "#FF6F00"},
-  {"name": "pgvector", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%234169E1%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EPG%3C/text%3E%3C/svg%3E", "color": "#4169E1"},
-  {"name": "JWT", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFFFFF%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EJW%3C/text%3E%3C/svg%3E", "color": "#FFFFFF"},
-  {"name": "Passport.js", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%2334E27A%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EPA%3C/text%3E%3C/svg%3E", "color": "#34E27A"},
-  {"name": "bcrypt", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%2300f5d4%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EBC%3C/text%3E%3C/svg%3E", "color": "#00f5d4"},
-  {"name": "Helmet", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%2300f5d4%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EHE%3C/text%3E%3C/svg%3E", "color": "#00f5d4"},
-  {"name": "Arcjet", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%238b5cf6%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EAR%3C/text%3E%3C/svg%3E", "color": "#8b5cf6"},
-  {"name": "scikit-learn", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg", "color": "#F7931E"},
-  {"name": "Pandas", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg", "color": "#150458"},
-  {"name": "NumPy", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg", "color": "#013243"},
-  {"name": "Matplotlib", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg", "color": "#11557C"},
-  {"name": "Sentence-Transformers", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FF9D00%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3ESE%3C/text%3E%3C/svg%3E", "color": "#FF9D00"},
-  {"name": "Whisper", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%2300f5d4%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EWH%3C/text%3E%3C/svg%3E", "color": "#00f5d4"},
-  {"name": "CLIP", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%2300f5d4%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3ECL%3C/text%3E%3C/svg%3E", "color": "#00f5d4"},
-  {"name": "Postman", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg", "color": "#FF6C37"},
-  {"name": "Winston", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%2300f5d4%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EWI%3C/text%3E%3C/svg%3E", "color": "#00f5d4"},
-  {"name": "JSON Server", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%2300f5d4%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EJS%3C/text%3E%3C/svg%3E", "color": "#00f5d4"},
-  {"name": "ESLint", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg", "color": "#4B32C3"},
-  {"name": "Prettier", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%23F7B93E%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EPR%3C/text%3E%3C/svg%3E", "color": "#F7B93E"},
-  {"name": "Husky", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%2300f5d4%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3EHU%3C/text%3E%3C/svg%3E", "color": "#00f5d4"},
-  {"name": "Render", "icon": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2230%22%20height%3D%2230%22%3E%3Ctext%20x%3D%2215%22%20y%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFFFFF%22%20font-size%3D%2211%22%20font-family%3D%22monospace%22%3ERE%3C/text%3E%3C/svg%3E", "color": "#FFFFFF"},
 ];
 
 function SkillCard({ skill, delay }) {
@@ -69,7 +39,7 @@ function SkillCard({ skill, delay }) {
         if (e.isIntersecting) {
           setTimeout(() => {
             if (cardRef.current) cardRef.current.classList.add("in-view");
-            if (barRef.current && skill.level != null) barRef.current.style.width = `${skill.level}%`;
+            if (barRef.current) barRef.current.style.width = `${skill.level}%`;
           }, delay);
         }
       },
@@ -154,7 +124,7 @@ function SkillCard({ skill, delay }) {
       }}>{skill.name}</span>
 
       {/* Level bar */}
-      {skill.level != null && <div style={{
+      <div style={{
         width: "100%",
         height: 2,
         background: "rgba(255,255,255,0.05)",
@@ -172,7 +142,7 @@ function SkillCard({ skill, delay }) {
             boxShadow: `0 0 6px ${skill.color}80`,
           }}
         />
-      </div>}
+      </div>
     </div>
   );
 }
